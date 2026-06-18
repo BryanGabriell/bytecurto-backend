@@ -1,4 +1,8 @@
 spring:
   application:
     name: bytecurto
-
+  datasource:
+    url: jdbc:postgresql://localhost:8432/bytecurto
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driverClassName: org.postgresql.Driver
