@@ -8,7 +8,7 @@ CREATE TABLE users(
 CREATE TABLE links(
  id BIGSERIAL PRIMARY KEY,
  url_original TEXT NOT NULL,
- codigo_curto VARCHAR(10) UNIQUE NOT NULL,
+ short_code VARCHAR(10) UNIQUE NOT NULL,
 
  user_id BIGINT,
     CONSTRAINT fk_links_users
