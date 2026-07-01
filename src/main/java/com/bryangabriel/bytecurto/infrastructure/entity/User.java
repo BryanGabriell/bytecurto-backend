@@ -1,36 +1,35 @@
-package com.bryangabriel.bytecurto.entity;
+package com.bryangabriel.bytecurto.infrastructure.entity;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Table(name = "links")
+@Table(name = "users")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @EntityListeners(AuditingEntityListener.class)
-public class Link {
+public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "name",nullable = false, length = 60)
+    private  String name;
+    @Column(name = "email", nullable = false, length = 254, unique = true)
+    private String email;
+    @Column(name = "password", nullable = false,length = 255)
+    private String password;
 
-    @Column(nullable = false)
-    private String urlOriginal;
-    @Column(nullable = false, length = 10, unique = true)
-    private String shortCode;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToMany(mappedBy = "user", cascade =CascadeType.ALL, orphanRemoval = true)
+    private List<Link> links;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
