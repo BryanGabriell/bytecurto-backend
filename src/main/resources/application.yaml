@@ -13,5 +13,5 @@ spring:
     show-sql: true
   security:
     token:
-      public-key: ${JWT_PUBLIC_KEY}
-      private-key: ${JWT_PRIVATE_KEY}
+      public-key: file:./certs/public_key.pem
+      private-key: file:./certs/private_key.pem

@@ -9,6 +9,6 @@ public record LoginRequestDTO(
         @Email(message = "Insira um email valido")
         String email,
       @NotBlank(message = "O campo senha não pode ser nulo")
-      String senha
+      String password
 ) {
 }

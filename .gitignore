@@ -31,5 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
-
+certs/
+certs/private_key.pem
+certs/public_key.pem
 .env
