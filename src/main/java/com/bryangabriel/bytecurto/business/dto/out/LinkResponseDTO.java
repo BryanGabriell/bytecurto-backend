@@ -5,9 +5,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 public record LinkResponseDTO(
         @Schema(
-                description = "O código identificador único da URL encurtada",
-                example = "a8X9z"
-        )
-        String shortCode
+        description = "O link encurtado final pronto para ser compartilhado",
+        example = "https://bytecurto.com"
+) String shortCode,
+        String urlOriginal
 ) {
 }

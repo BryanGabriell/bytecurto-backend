@@ -11,10 +11,12 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface LinkMapper {
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "urlOriginal", source = "dto.urlOriginal")
+    @Mapping(target = "urlOriginal", source = "linkRequestDTO.urlOriginal")
     @Mapping(target = "shortCode", source = "shortCode")
-    @Mapping(target = "usuario", source = "usuarioLogado")
+    @Mapping(target = "user", source = "user")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updateAt", ignore = true)
     Link paraEntity(LinkRequestDTO linkRequestDTO, String shortCode, User user);
 
-    LinkResponseDTO paraOut(Link Link);
+    LinkResponseDTO paraOut(Link link);
 }

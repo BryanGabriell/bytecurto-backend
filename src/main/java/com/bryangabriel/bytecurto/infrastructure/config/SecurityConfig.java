@@ -70,6 +70,8 @@ public class SecurityConfig  {
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers(HttpMethod.POST, "/v1/users").permitAll()
                             .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/api/links/encurtar").authenticated()
+                            .requestMatchers(HttpMethod.GET, "/api/links/{shortCode}").permitAll()
                             .requestMatchers("/v3/api-docs/**","swagger-ui/**","swagger-ui.html").permitAll()
                             .anyRequest().authenticated();
                 })
