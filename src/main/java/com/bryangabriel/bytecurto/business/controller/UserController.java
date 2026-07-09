@@ -12,17 +12,15 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
 @RestController
-@RequestMapping("v1/users")
+@RequestMapping("/v1/users")
 @Tag(name = "user", description = "Controlador para criar um usuário")
+@CrossOrigin(origins = "*")
 @SecurityRequirement(name = SecurityConfig.SECURITY)
 public class  UserController {
  private final UserService userService;

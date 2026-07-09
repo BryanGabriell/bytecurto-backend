@@ -62,16 +62,18 @@ public class SecurityConfig  {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(oauth2 ->
                         oauth2.jwt(Customizer.withDefaults()))
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers(HttpMethod.POST, "/v1/users").permitAll()
+                    authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/v1/users").permitAll()
                             .requestMatchers(HttpMethod.POST, "/login").permitAll()
                             .requestMatchers(HttpMethod.POST, "/api/links/encurtar").authenticated()
-                            .requestMatchers(HttpMethod.GET, "/api/links/{shortCode}").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/redirecionar/{shortCode}").permitAll()
                             .requestMatchers("/v3/api-docs/**","swagger-ui/**","swagger-ui.html").permitAll()
                             .anyRequest().authenticated();
                 })

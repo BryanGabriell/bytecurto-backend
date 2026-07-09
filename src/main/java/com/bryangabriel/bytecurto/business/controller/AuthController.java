@@ -15,12 +15,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@SecurityRequirement(name = SecurityConfig.SECURITY)
+@CrossOrigin(origins = "*")
 @Tag(name = "AuthController", description = "Controlador de login de usuários")
 public class AuthController {
 
@@ -44,6 +45,7 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = "Erro interno no servidor")
     }
     )
+    @SecurityRequirement(name = SecurityConfig.SECURITY)
      public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequestDTO){
         var dadosAutenticacao = new UsernamePasswordAuthenticationToken(loginRequestDTO.email(),loginRequestDTO.password());
         Authentication authentication = authenticationManager.authenticate(dadosAutenticacao);

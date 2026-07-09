@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/links")
 @SecurityRequirement(name = SecurityConfig.SECURITY)
+@CrossOrigin(origins = "*")
 @Tag(name = "Links", description = "Controlador de encurtamento de links")
 public class LinkController {
     private final LinkService linkService;
@@ -40,22 +41,5 @@ public class LinkController {
     public ResponseEntity<LinkResponseDTO> encurtarUrl(@RequestBody @Valid LinkRequestDTO linkRequestDTO){
         var link = linkService.encurtarUrl(linkRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(link);
-    }
-
-    @Operation(summary = "Redireciona para a URL original",
-            description = "Recebe o código curto de 10 caracteres e redireciona o visitante para o site original correspondente.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "302", description = "Redirecionamento bem-sucedido. O navegador será levado para a URL original."),
-            @ApiResponse(responseCode = "404", description = "Link não encontrado. O código informado não existe no sistema.")
-    })
-    @GetMapping("/{shortCode}")
-    public ResponseEntity<Void> redirecionar(@PathVariable String shortCode) {
-        var responseDTO = linkService.obterUrlOriginal(shortCode);
-
-        String urlOriginalLonga = responseDTO.urlOriginal();
-
-        return ResponseEntity.status(HttpStatus.FOUND)
-                .header(HttpHeaders.LOCATION, urlOriginalLonga)
-                .build();
     }
 }
