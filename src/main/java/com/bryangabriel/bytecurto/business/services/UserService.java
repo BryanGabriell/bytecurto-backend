@@ -9,6 +9,7 @@ import com.bryangabriel.bytecurto.infrastructure.entity.repositorys.UserReposito
 import com.bryangabriel.bytecurto.infrastructure.exceptions.EmailAlreadyExistsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -22,7 +23,7 @@ public class UserService {
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
     }
-
+    @Transactional
     public UserResponseDTO createUser(UserRequestDTO dto){
         if (userRepository.existsByEmail(dto.email())){
             throw new EmailAlreadyExistsException("O email digitado ja existe");

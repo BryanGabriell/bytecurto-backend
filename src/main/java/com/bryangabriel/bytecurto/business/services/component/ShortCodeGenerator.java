@@ -8,6 +8,7 @@ import com.bryangabriel.bytecurto.infrastructure.entity.Link;
 import com.bryangabriel.bytecurto.infrastructure.entity.User;
 import com.bryangabriel.bytecurto.infrastructure.entity.repositorys.LinkRepository;
 import com.bryangabriel.bytecurto.infrastructure.entity.repositorys.UserRepository;
+import com.bryangabriel.bytecurto.infrastructure.exceptions.UserNotFound;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -34,7 +35,7 @@ public class ShortCodeGenerator {
         String usernameOuEmail = jwt.getSubject();
 
         User user = userRepository.findByEmail(usernameOuEmail)
-                .orElseThrow(() -> new RuntimeException("Usuário autenticado não encontrado na base de dados"));
+                .orElseThrow(() -> new UserNotFound("Usuário autenticado não encontrado na base de dados"));
 
 
         Link linkEntity = linkMapper.paraEntity(linkRequestDTO, shortCode, user);

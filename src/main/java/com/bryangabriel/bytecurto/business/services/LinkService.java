@@ -4,9 +4,8 @@ import com.bryangabriel.bytecurto.business.dto.in.LinkRequestDTO;
 import com.bryangabriel.bytecurto.business.dto.out.LinkResponseDTO;
 import com.bryangabriel.bytecurto.business.mapstruct.LinkMapper;
 import com.bryangabriel.bytecurto.business.services.component.ShortCodeGenerator;
-import com.bryangabriel.bytecurto.infrastructure.entity.Link;
 import com.bryangabriel.bytecurto.infrastructure.entity.repositorys.LinkRepository;
-import com.bryangabriel.bytecurto.infrastructure.exceptions.UrlNaoEncontrada;
+import com.bryangabriel.bytecurto.infrastructure.exceptions.UrlNotFound;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +28,7 @@ public class LinkService {
 
     public LinkResponseDTO obterUrlOriginal(String shortCode){
        var url = linkRepository.findByShortCode(shortCode).orElseThrow(() ->
-                new UrlNaoEncontrada("Url não existe"));
+                new UrlNotFound("Url não existe"));
 
         return linkMapper.paraOut(url);
     }
