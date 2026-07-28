@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name = SecurityConfig.SECURITY)
 @CrossOrigin(origins = "*")
 @Tag(name = "Links", description = "Controlador de encurtamento de links")
+@Slf4j
 public class LinkController {
     private final LinkService linkService;
 
@@ -39,6 +41,8 @@ public class LinkController {
             @ApiResponse(responseCode = "500", description = "Erro interno no servidor ao tentar salvar o link.")
     })
     public ResponseEntity<LinkResponseDTO> encurtarUrl(@RequestBody @Valid LinkRequestDTO linkRequestDTO){
+        log.info("Encurtando a url {}", linkRequestDTO.urlOriginal());
+
         var link = linkService.encurtarUrl(linkRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(link);
     }

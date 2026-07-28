@@ -5,6 +5,7 @@ import com.bryangabriel.bytecurto.business.services.LinkService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/redirecionar")
 @CrossOrigin(origins = "*")
+@Slf4j
 public class RedirectController {
     private final LinkService linkService;
 
@@ -28,6 +30,8 @@ public class RedirectController {
     })
     @GetMapping("/{shortCode}")
     public ResponseEntity<Void> redirecionar(@PathVariable String shortCode) {
+        log.info("Redirecionando para url encurtada");
+
         var responseDTO = linkService.obterUrlOriginal(shortCode);
 
         String urlOriginalLonga = responseDTO.urlOriginal();

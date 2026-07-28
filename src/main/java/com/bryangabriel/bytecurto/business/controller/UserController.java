@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -22,6 +23,7 @@ import java.net.URI;
 @Tag(name = "user", description = "Controlador para criar um usuário")
 @CrossOrigin(origins = "*")
 @SecurityRequirement(name = SecurityConfig.SECURITY)
+@Slf4j
 public class  UserController {
  private final UserService userService;
 
@@ -35,7 +37,9 @@ public class  UserController {
     @ApiResponse(responseCode = "400", description = "Email ja cadastrado")
     @ApiResponse(responseCode = "500", description = "Erro no servidor")
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody @Valid UserRequestDTO userRequestDTO, UriComponentsBuilder uriComponent){
-    var user = userService.createUser(userRequestDTO);
+        log.info("Criando Usuário {}", userRequestDTO.name());
+
+        var user = userService.createUser(userRequestDTO);
 
      URI uri = uriComponent.path("/v1/users/{id}")
                      .buildAndExpand(user.id())

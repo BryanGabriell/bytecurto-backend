@@ -15,3 +15,27 @@ spring:
     token:
       public-key: file:./certs/public_key.pem
       private-key: file:./certs/private_key.pem
+
+  output:
+    ansi:
+      enabled: ALWAYS
+logging:
+  level:
+    root: INFO
+    com.bryangabriel.bytecurto: DEBUG
+    org.springframework: INFO
+    org.hibernate.SQL: ERROR
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %clr(%-5level){style} %clr(%logger{36}){cyan} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+  file:
+    name: logs/app-bytecurto.log
+
+  logback:
+    rollingpolicy:
+      file-name-pattern: "logs/archived/app-bytecurto-%d{yyyy-MM-dd}.%i.log"
+      max-history: 7
+      max-file-size: 10MB
+      total-size-cap: 100MB

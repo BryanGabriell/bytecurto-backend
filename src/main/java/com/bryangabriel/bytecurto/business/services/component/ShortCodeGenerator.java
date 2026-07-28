@@ -9,12 +9,14 @@ import com.bryangabriel.bytecurto.infrastructure.entity.User;
 import com.bryangabriel.bytecurto.infrastructure.entity.repositorys.LinkRepository;
 import com.bryangabriel.bytecurto.infrastructure.entity.repositorys.UserRepository;
 import com.bryangabriel.bytecurto.infrastructure.exceptions.UserNotFound;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class ShortCodeGenerator {
 
     private final LinkRepository linkRepository;
@@ -45,6 +47,7 @@ public class ShortCodeGenerator {
     }
 
     private String gerarShortCodeUnico() {
+        log.info("Gerando código encurtado aleatório");
         String code;
         do {
             code = RandomStringUtils.randomAlphanumeric(10);

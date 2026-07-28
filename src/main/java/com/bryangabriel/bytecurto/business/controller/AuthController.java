@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "*")
 @Tag(name = "AuthController", description = "Controlador de login de usuários")
+@Slf4j
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -47,6 +49,7 @@ public class AuthController {
     )
     @SecurityRequirement(name = SecurityConfig.SECURITY)
      public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequestDTO){
+        log.info("Conectando usuário");
         var dadosAutenticacao = new UsernamePasswordAuthenticationToken(loginRequestDTO.email(),loginRequestDTO.password());
         Authentication authentication = authenticationManager.authenticate(dadosAutenticacao);
 
