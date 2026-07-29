@@ -35,3 +35,4 @@ certs/
 certs/private_key.pem
 certs/public_key.pem
 .env
+.env.prod
