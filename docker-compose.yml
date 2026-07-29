@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   meubanco:
-    image: postgres
+    image: postgres:16
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
