@@ -11,6 +11,7 @@ import com.bryangabriel.bytecurto.infrastructure.entity.repositorys.UserReposito
 import com.bryangabriel.bytecurto.infrastructure.exceptions.UserNotFound;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,9 @@ public class ShortCodeGenerator {
     private final LinkRepository linkRepository;
      private final LinkMapper linkMapper;
      private final UserRepository userRepository;
+
+    @Value("${app.base-url:http://18.116.82.128:8080}")
+    private String baseUrl;
 
     public ShortCodeGenerator(LinkRepository linkRepository, LinkMapper linkMapper, UserRepository userRepository) {
         this.linkRepository = linkRepository;
@@ -39,11 +43,21 @@ public class ShortCodeGenerator {
         User user = userRepository.findByEmail(usernameOuEmail)
                 .orElseThrow(() -> new UserNotFound("Usuário autenticado não encontrado na base de dados"));
 
+        String urlOriginalSanitizada = sanitizarUrl(linkRequestDTO.urlOriginal());
+        LinkRequestDTO dtoSanitizado = new LinkRequestDTO(urlOriginalSanitizada);
 
-        Link linkEntity = linkMapper.paraEntity(linkRequestDTO, shortCode, user);
+        Link linkEntity = linkMapper.paraEntity(dtoSanitizado, shortCode, user);
         Link linkSalvo = linkRepository.save(linkEntity);
 
-        return new LinkResponseDTO("https://bytecurto.com/" + linkSalvo.getShortCode(), linkSalvo.getUrlOriginal());
+        String urlEncurtadaCompleta = baseUrl + "/redirecionar/" + linkSalvo.getShortCode();
+
+        return new LinkResponseDTO(urlEncurtadaCompleta, linkSalvo.getUrlOriginal());
+    }
+    private String sanitizarUrl(String url) {
+        if (url != null && !url.startsWith("http://") && !url.startsWith("https://")) {
+            return "https://" + url;
+        }
+        return url;
     }
 
     private String gerarShortCodeUnico() {
