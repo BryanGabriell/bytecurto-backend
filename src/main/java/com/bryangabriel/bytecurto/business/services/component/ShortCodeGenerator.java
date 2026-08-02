@@ -24,7 +24,7 @@ public class ShortCodeGenerator {
      private final LinkMapper linkMapper;
      private final UserRepository userRepository;
 
-    @Value("${app.base-url:http://18.116.82.128:8080}")
+    @Value("${app.base-url:https://bytecurto-frontend.vercel.app}")
     private String baseUrl;
 
     public ShortCodeGenerator(LinkRepository linkRepository, LinkMapper linkMapper, UserRepository userRepository) {
