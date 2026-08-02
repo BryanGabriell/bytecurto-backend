@@ -64,18 +64,17 @@ public class SecurityConfig  {
         return http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .oauth2ResourceServer(oauth2 ->
-                        oauth2.jwt(Customizer.withDefaults()))
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/v1/users").permitAll()
-                            .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                            .requestMatchers(HttpMethod.POST, "/api/links/encurtar").authenticated()
-                            .requestMatchers(HttpMethod.GET, "/redirecionar/{shortCode}").permitAll()
-                            .requestMatchers("/v3/api-docs/**","swagger-ui/**","swagger-ui.html").permitAll()
-                            .anyRequest().authenticated();
+                    authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+                    authorize.requestMatchers(HttpMethod.POST, "/v1/users").permitAll();
+                    authorize.requestMatchers(HttpMethod.POST, "/login").permitAll();
+                    authorize.requestMatchers(HttpMethod.GET, "/redirecionar/**").permitAll();
+                    authorize.requestMatchers(HttpMethod.GET, "/{shortCode}").permitAll();
+                    authorize.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll();
+                    authorize.requestMatchers(HttpMethod.POST, "/api/links/encurtar", "/links/encurtar").authenticated();
+                    authorize.anyRequest().authenticated();
                 })
                 .build();
     }
