@@ -49,6 +49,8 @@ public class ShortCodeGenerator {
         Link linkEntity = linkMapper.paraEntity(dtoSanitizado, shortCode, user);
         Link linkSalvo = linkRepository.save(linkEntity);
 
+        String baseLimpa = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
+
         String urlEncurtadaCompleta = baseUrl + "/redirecionar/" + linkSalvo.getShortCode();
 
         return new LinkResponseDTO(urlEncurtadaCompleta, linkSalvo.getUrlOriginal());
